@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ceanna Academy Travel Planner</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="planner">
+        <aside class="sidebar" aria-label="Trip setup">
+          <div class="brand">
+            <span class="brand-mark">CA</span>
+            <div>
+              <h1>Ceanna Academy Travel Planner</h1>
+              <p>Travel plans with saved tabs, images, costs, and clean exports.</p>
+            </div>
+          </div>
+
+          <section class="trip-tabs-panel" aria-label="Saved trip tabs">
+            <div class="tabs-header">
+              <span>Saved trips</span>
+              <div class="tabs-actions">
+                <button id="newTrip" type="button">New</button>
+                <button id="deleteTrip" type="button">Delete</button>
+              </div>
+            </div>
+            <div id="tripTabs" class="trip-tabs" role="tablist" aria-label="Saved trips"></div>
+          </section>
+
+          <label class="cover-uploader" for="tripImage">
+            <input id="tripImage" type="file" accept="image/*">
+            <img id="coverPreview" alt="">
+            <span class="upload-empty" id="uploadEmpty">
+              <strong>Upload trip image</strong>
+              <small>Drop in a mood photo, map, hotel shot, or itinerary scan.</small>
+            </span>
+          </label>
+
+          <div class="field-group">
+            <label for="tripName">Trip name</label>
+            <input id="tripName" type="text" value="Pacific Coast Escape">
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="currency">Currency</label>
+              <select id="currency">
+                <option value="$" selected>USD $</option>
+                <option value="C$">CAD C$</option>
+                <option value="EUR ">EUR</option>
+                <option value="GBP ">GBP</option>
+                <option value="JPY ">JPY</option>
+              </select>
+            </div>
+          </div>
+
+          <section class="city-panel" aria-label="Trip cities">
+            <div class="field-group">
+              <label for="cityInput">Trip cities</label>
+              <div class="city-entry">
+                <input id="cityInput" type="text" value="Vancouver, BC" placeholder="Add a city">
+                <button id="addCity" type="button">Add</button>
+              </div>
+            </div>
+            <div id="cityList" class="city-list" aria-live="polite"></div>
+          </section>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label for="startDate">Start</label>
+              <input id="startDate" type="date">
+            </div>
+            <div class="field-group">
+              <label for="endDate">End</label>
+              <input id="endDate" type="date">
+            </div>
+          </div>
+
+          <div class="export-actions">
+            <button class="primary" id="exportPdf" type="button">Export PDF</button>
+            <button id="exportExcel" type="button">Export Excel</button>
+          </div>
+
+          <label class="import-drop" for="importFile">
+            <input id="importFile" type="file" accept=".xls,.xlsx,.csv,.pdf,application/pdf,text/csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <strong>Import PDF or Excel</strong>
+            <small id="importStatus">Bring in saved plans, spreadsheets, or PDF itineraries.</small>
+          </label>
+
+          <section class="sidebar-notes" aria-label="Overall trip notes">
+            <div class="section-title compact">
+              <h3>Notes</h3>
+              <span>Saved</span>
+            </div>
+            <textarea id="notes" placeholder="Overall trip notes...">Bring a rain shell, book a harbor walk, and keep one slow morning open.</textarea>
+          </section>
+        </aside>
+
+        <section class="workspace" aria-label="Travel planner">
+          <header class="trip-header">
+            <div>
+              <p class="eyebrow">Live trip board</p>
+              <h2 id="tripTitle">Pacific Coast Escape</h2>
+              <p id="tripMeta">Vancouver, BC</p>
+            </div>
+            <div class="header-budget-panel">
+              <div class="budget-meter">
+                <span>Budget used</span>
+                <strong id="budgetUsed">$0</strong>
+                <div class="meter"><span id="meterFill"></span></div>
+              </div>
+              <div class="header-breakdown">
+                <span>Category spend</span>
+                <div class="category-breakdown" id="categoryBreakdown"></div>
+              </div>
+            </div>
+          </header>
+
+          <section class="stats-grid" aria-label="Trip totals">
+            <div class="stat-card">
+              <span>Total cost</span>
+              <strong id="totalCost">$0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Items planned</span>
+              <strong id="itemCount">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Daily average</span>
+              <strong id="dailyAverage">$0</strong>
+            </div>
+            <div class="stat-card accent">
+              <label for="budget">Trip budget</label>
+              <input id="budget" type="number" min="0" step="1" value="2500">
+            </div>
+          </section>
+
+          <section class="entry-panel" aria-label="Add planner item">
+            <div class="field-group wide">
+              <label for="itemTitle">Plan item</label>
+              <input id="itemTitle" type="text" placeholder="Flight, hotel, dinner reservation...">
+            </div>
+            <div class="field-group">
+              <label for="itemCategory">Category</label>
+              <select id="itemCategory">
+                <option>Flight</option>
+                <option>Stay</option>
+                <option>Food</option>
+                <option>Transport</option>
+                <option>Activity</option>
+                <option>Shopping</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="itemCity">City</label>
+              <select id="itemCity"></select>
+            </div>
+            <div class="field-group">
+              <label>Trip days</label>
+              <details class="day-picker" id="itemDaysMenu">
+                <summary id="itemDaysSummary">Pick days</summary>
+                <div id="itemDaysOptions" class="day-options"></div>
+              </details>
+            </div>
+            <div class="field-group">
+              <label for="itemCost">Cost</label>
+              <input id="itemCost" type="number" min="0" step="0.01" placeholder="0.00">
+            </div>
+            <div class="field-group">
+              <label for="itemFromTime">From time</label>
+              <input id="itemFromTime" type="text" inputmode="numeric" maxlength="5" pattern="([0-2][0-9]:[0-5][0-9]|[0-9]{3,4})" placeholder="HH:MM">
+            </div>
+            <div class="field-group">
+              <label for="itemToTime">To time</label>
+              <input id="itemToTime" type="text" inputmode="numeric" maxlength="5" pattern="([0-2][0-9]:[0-5][0-9]|[0-9]{3,4})" placeholder="HH:MM">
+            </div>
+            <div class="field-group item-note-field">
+              <label for="itemNote">Item note</label>
+              <textarea id="itemNote" placeholder="Paste links, booking numbers, meeting points, or reminders..."></textarea>
+              <div class="note-link-tools">
+                <input id="linkText" type="text" placeholder="Link label">
+                <input id="linkUrl" type="url" placeholder="https://example.com">
+                <button id="addNoteLink" type="button">Add link</button>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="primary" id="addItem" type="button">Add</button>
+              <button id="cancelEdit" type="button" hidden>Cancel</button>
+            </div>
+          </section>
+
+          <section class="board-layout">
+            <div class="itinerary-column">
+              <div class="section-title">
+                <h3>Itinerary</h3>
+                <span id="lastUpdated">Ready</span>
+              </div>
+              <div class="list-controls" aria-label="Sort and filter itinerary">
+                <div class="field-group">
+                  <label for="filterText">Filter</label>
+                  <input id="filterText" type="search" placeholder="Search plans...">
+                </div>
+                <div class="field-group">
+                  <label for="filterCategory">Category</label>
+                  <select id="filterCategory">
+                    <option value="All">All</option>
+                    <option>Flight</option>
+                    <option>Stay</option>
+                    <option>Food</option>
+                    <option>Transport</option>
+                    <option>Activity</option>
+                    <option>Shopping</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label for="sortBy">Sort</label>
+                  <select id="sortBy">
+                    <option value="manual">Manual</option>
+                    <option value="day">Day</option>
+                    <option value="time">Time</option>
+                    <option value="cost-desc">Cost high</option>
+                    <option value="cost-asc">Cost low</option>
+                    <option value="category">Category</option>
+                    <option value="title">Title</option>
+                  </select>
+                </div>
+              </div>
+              <div id="itemsList" class="items-list" aria-live="polite"></div>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
