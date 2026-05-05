@@ -588,6 +588,24 @@ input[type="search"]:focus {
   line-height: 1.35;
 }
 
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between logo and text */
+}
+
+.brand-logo {
+  /* Adjust these values based on your design preference */
+  height: 40px; 
+  width: auto;
+  
+  /* Ensures the SVG doesn't distort if the container flexes */
+  object-fit: contain; 
+  
+  /* Prevents the logo from shrinking in a flex container */
+  flex-shrink: 0; 
+}
+
 input[type="checkbox"] {
   width: 18px;
   height: 18px;
